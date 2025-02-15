@@ -1,0 +1,24 @@
+The following CSS code snippet demonstrates an uncommon error that can occur when using the `calc()` function with percentages and other units: 
+```css
+.container {
+  width: calc(50% - 10px);
+}
+```
+This looks fine at first glance but let's say the parent container is 200px wide. You would expect the child `.container` to be 90px wide (100px - 10px). However, the browser will interpret the 50% as 50% of the *container's* width. But, the container's width is not yet known when the `calc()` function is computed. This causes the calculation to be incorrect leading to unexpected layout.
+
+Another example is using calc() with different units. Some calculations are simply invalid: 
+```css
+width: calc(100px + 50%); /* Valid */
+width: calc(100px + 5em);  /* Valid */
+width: calc(100% + 5em);  /* Valid */
+width: calc(100px + 5%);  /* Valid */
+width: calc(100px + 100px + 100%); /* Valid */
+width: calc(10em + 5%); /* Valid */
+width: calc(100px + 10em + 5%);  /* Valid */
+width: calc(50% + 10em + 10px);  /* Valid */
+width: calc(50px + 100% + 10em); /* Invalid: percentage and other units */
+width: calc(50% - 10em); /* Valid */
+width: calc(50% + 10%);  /* Valid */
+width: calc(10px + 10%);  /* Valid */
+width: calc(50% - 10%);  /* Valid */
+```
