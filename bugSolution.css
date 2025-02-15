@@ -1,0 +1,29 @@
+To solve the issue of unexpected layout with `calc()` and percentages, you need to ensure the calculation is performed after the parent container's size is determined.  There are two common approaches:
+
+**1. Avoid Mixing Units:**  Restructure your CSS to avoid combining percentages with fixed units directly in the `calc()` function. For instance, instead of:
+```css
+.container {
+  width: calc(50% - 10px);
+}
+```
+Use separate declarations:
+```css
+.container {
+  width: 50%;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+```
+This approach ensures that the 50% width is calculated correctly before the margins are applied.
+
+**2. Use JavaScript:** If you absolutely require dynamic calculations involving percentages and other units, use JavaScript to compute the value after the DOM has loaded and the parent container's size is available. Then set the width using JavaScript.
+
+```javascript
+const container = document.querySelector('.container');
+const parentWidth = container.parentNode.offsetWidth;
+const containerWidth = parentWidth * 0.5 - 10; // Calculate width
+container.style.width = `${containerWidth}px`;
+```
+This ensures accurate calculations.
+
+By using either of these approaches, you can prevent the unexpected behavior and inconsistencies caused by mixing percentages and other units within the CSS `calc()` function.
